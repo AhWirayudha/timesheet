@@ -3,11 +3,18 @@ import type { NextRequest } from 'next/server';
 import { signToken, verifyToken } from '@/lib/auth/session';
 
 const protectedRoutes = '/dashboard';
+const demoRoutes = ['/demo', '/demo/timesheet', '/demo/dashboard', '/demo/timesheet/dashboard'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionCookie = request.cookies.get('session');
   const isProtectedRoute = pathname.startsWith(protectedRoutes);
+  const isDemoRoute = demoRoutes.some(route => pathname.startsWith(route));
+
+  // Allow demo routes without authentication
+  if (isDemoRoute) {
+    return NextResponse.next();
+  }
 
   if (isProtectedRoute && !sessionCookie) {
     return NextResponse.redirect(new URL('/login/sign-in', request.url));

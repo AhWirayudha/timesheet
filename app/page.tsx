@@ -1,9 +1,14 @@
+'use client';
+
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Clock, Brain, BarChart3, Download, Zap } from 'lucide-react';
+import { Clock, Brain, BarChart3, Download, Zap, Play } from 'lucide-react';
+import { useDemo } from '@/lib/demo-context';
 
 export default function HomePage() {
+  const { enterDemoMode } = useDemo();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       {/* Hero Section */}
@@ -20,8 +25,14 @@ export default function HomePage() {
             <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
               <Link href="/dashboard/timesheet">Get Started</Link>
             </Button>
-            <Button asChild variant="outline" size="lg">
-              <Link href="/dashboard/timesheet/dashboard">View Demo</Link>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              onClick={enterDemoMode}
+              className="flex items-center"
+            >
+              <Play className="h-4 w-4 mr-2" />
+              Try Demo
             </Button>
           </div>
         </div>

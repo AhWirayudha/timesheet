@@ -149,7 +149,7 @@ function Sidebar({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean; toggleS
     },
     {
       name: 'Team Members',
-      href: '/dashboard',
+      href: '/dashboard/create-team',
       icon: Users,
       show: hasTeam
     },
