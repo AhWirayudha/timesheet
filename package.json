@@ -15,6 +15,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
+    "safe-build": "pnpm db:migrate && pnpm db:seed && pnpm build",
     "ci": "pnpm run lint && pnpm run type-check && pnpm run test:coverage"
   },
   "dependencies": {
