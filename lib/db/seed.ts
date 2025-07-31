@@ -20,7 +20,7 @@ async function seed() {
 
   console.log('No existing data found. Starting seed process...');
 
-  const email = 'test@test.com';
+  const email = 'admin@test.com';
   const password = 'admin123';
   const passwordHash = await hashPassword(password);
 
@@ -30,7 +30,7 @@ async function seed() {
       {
         email: email,
         passwordHash: passwordHash,
-        role: "user",
+        role: "owner",
       },
     ])
     .returning();
