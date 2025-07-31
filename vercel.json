@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/next"
+    }
+  ],
+  "env": {
+    "POSTGRES_URL": "@postgres_url",
+    "BASE_URL": "@base_url",
+    "AUTH_SECRET": "@auth_secret",
+    "GEMINI_API_KEY": "@gemini_api_key"
+  },
+  "functions": {
+    "app/api/**/*.ts": {
+      "maxDuration": 30
+    }
+  },
+  "regions": ["iad1"],
+  "public": true
+} 

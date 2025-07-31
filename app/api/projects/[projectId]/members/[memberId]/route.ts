@@ -7,7 +7,7 @@ import { getUser } from '@/lib/db/queries';
 // DELETE /api/projects/[projectId]/members/[memberId] - Remove project member
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { projectId: string; memberId: string } }
+  { params }: { params: Promise<{ projectId: string; memberId: string }> }
 ) {
   try {
     const user = await getUser();
@@ -16,8 +16,9 @@ export async function DELETE(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const projectId = parseInt(params.projectId);
-    const memberId = parseInt(params.memberId);
+    const resolvedParams = await params;
+    const projectId = parseInt(resolvedParams.projectId);
+    const memberId = parseInt(resolvedParams.memberId);
 
     if (isNaN(projectId) || isNaN(memberId)) {
       return NextResponse.json(

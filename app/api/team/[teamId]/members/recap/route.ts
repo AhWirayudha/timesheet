@@ -6,7 +6,7 @@ import { eq, and, gte, lte, desc } from 'drizzle-orm';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { teamId: string } }
+  { params }: { params: Promise<{ teamId: string }> }
 ) {
   try {
     const user = await getUser();
@@ -19,11 +19,12 @@ export async function GET(
     const projectId = searchParams.get('projectId');
     const userId = searchParams.get('userId');
 
+    const resolvedParams = await params;
     // Check if user is part of the team
     const userTeam = await db.query.teamMembers.findFirst({
       where: and(
         eq(teamMembers.userId, user.id),
-        eq(teamMembers.teamId, parseInt(params.teamId))
+        eq(teamMembers.teamId, parseInt(resolvedParams.teamId))
       ),
       with: {
         user: {

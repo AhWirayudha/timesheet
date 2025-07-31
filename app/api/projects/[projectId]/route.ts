@@ -7,7 +7,7 @@ import { getUser } from '@/lib/db/queries';
 // GET /api/projects/[projectId] - Get project details
 export async function GET(
   request: NextRequest,
-  { params }: { params: { projectId: string } }
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
     const user = await getUser();
@@ -16,7 +16,8 @@ export async function GET(
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const projectId = parseInt(params.projectId);
+    const resolvedParams = await params;
+    const projectId = parseInt(resolvedParams.projectId);
 
     if (isNaN(projectId)) {
       return NextResponse.json(

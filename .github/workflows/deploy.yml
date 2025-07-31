@@ -18,16 +18,33 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
-        cache: 'npm'
+        
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 10
+        
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+        
+    - name: Setup pnpm cache
+      uses: actions/cache@v4
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
         
     - name: Install dependencies
-      run: npm ci
+      run: pnpm install --frozen-lockfile
       
     - name: Run all checks
-      run: npm run ci
+      run: pnpm run ci
       
     - name: Build application
-      run: npm run build
+      run: pnpm run build
       
     - name: Create release
       id: create_release
@@ -50,15 +67,49 @@ jobs:
         asset_name: build-files
         asset_content_type: application/zip
         
-    - name: Deploy to Vercel (example)
+    - name: Deploy to Vercel
       if: env.VERCEL_TOKEN != ''
+      env:
+        VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+        VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        # Your original environment variables
+        POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+        BASE_URL: ${{ secrets.BASE_URL }}
+        AUTH_SECRET: ${{ secrets.AUTH_SECRET }}
+        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        # Other environment variables
+        NODE_ENV: production
       run: |
-        # Example deployment to Vercel
-        # You can replace this with your actual deployment platform
         echo "Deploying to production..."
-        # npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+        echo "Setting up Vercel configuration..."
+        
+        # Create vercel.json if it doesn't exist
+        if [ ! -f "vercel.json" ]; then
+          cat > vercel.json << EOF
+        {
+          "version": 2,
+          "builds": [
+            {
+              "src": "package.json",
+              "use": "@vercel/next"
+            }
+          ],
+          "env": {
+            "POSTGRES_URL": "@postgres_url",
+            "BASE_URL": "@base_url",
+            "AUTH_SECRET": "@auth_secret",
+            "GEMINI_API_KEY": "@gemini_api_key"
+          }
+        }
+        EOF
+        fi
+        
+        # Deploy to Vercel
+        npx vercel --prod --token $VERCEL_TOKEN --confirm
         
     - name: Notify deployment success
       run: |
         echo "🚀 Successfully deployed version ${{ github.ref }} to production!"
-        echo "Release URL: ${{ steps.create_release.outputs.html_url }}" 
+        echo "Release URL: ${{ steps.create_release.outputs.html_url }}"
+        echo "Vercel deployment completed successfully!" 
