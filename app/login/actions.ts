@@ -315,7 +315,7 @@ export const deleteAccount = validatedActionWithUser(
     }
 
     (await cookies()).delete('session');
-    redirect('/sign-in');
+    redirect('/login/sign-in');
   }
 );
 

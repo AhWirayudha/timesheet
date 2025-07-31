@@ -712,19 +712,19 @@ ${aiInsights.performance.opportunities.map(opp => `• ${opp}`).join('\n')}
           <h1 className="text-3xl font-bold">Timesheet Dashboard</h1>
           <div className="flex gap-4 mt-2">
             <Link 
-              href="/timesheet/dashboard" 
+              href="/dashboard/timesheet/dashboard" 
               className="px-3 py-1 text-sm font-medium text-blue-600 border-b-2 border-blue-600"
             >
               📊 Analytics
             </Link>
             <Link 
-              href="/timesheet/dashboard/comparison" 
+              href="/dashboard/timesheet/dashboard/comparison" 
               className="px-3 py-1 text-sm font-medium text-gray-500 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600"
             >
               📈 Comparison
             </Link>
             <Link 
-              href="/timesheet/dashboard/recap" 
+              href="/dashboard/timesheet/dashboard/recap" 
               className="px-3 py-1 text-sm font-medium text-gray-500 hover:text-blue-600 border-b-2 border-transparent hover:border-blue-600"
             >
               📋 Recap
@@ -763,7 +763,7 @@ ${aiInsights.performance.opportunities.map(opp => `• ${opp}`).join('\n')}
             Export CSV
           </Button>
           <Button asChild variant="outline">
-            <Link href="/timesheet/dashboard/comparison">
+            <Link href="/dashboard/timesheet/dashboard/comparison">
               <BarChart3 className="h-4 w-4 mr-2" />
               Comparison
             </Link>
@@ -787,13 +787,13 @@ ${aiInsights.performance.opportunities.map(opp => `• ${opp}`).join('\n')}
               </div>
               <div className="flex gap-2">
                 <Button asChild size="sm" variant="outline">
-                  <Link href="/sign-in">
+                  <Link href="/login/sign-in">
                     <Plus className="h-4 w-4 mr-2" />
                     Sign In
                   </Link>
                 </Button>
                 <Button asChild size="sm" variant="outline">
-                  <Link href="/sign-up">
+                  <Link href="/login/sign-up">
                     <Mail className="h-4 w-4 mr-2" />
                     Sign Up
                   </Link>

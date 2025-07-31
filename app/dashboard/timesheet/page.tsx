@@ -521,13 +521,13 @@ export default function TimesheetPage() {
                 </div>
                 <div className="flex gap-2">
                   <Button asChild size="sm" variant="outline">
-                    <Link href="/sign-in">
+                    <Link href="/login/sign-in">
                       <Plus className="h-4 w-4 mr-2" />
                       Sign In
                     </Link>
                   </Button>
                   <Button asChild size="sm" variant="outline">
-                    <Link href="/sign-up">
+                    <Link href="/login/sign-up">
                       <Mail className="h-4 w-4 mr-2" />
                       Sign Up
                     </Link>

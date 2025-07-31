@@ -18,10 +18,10 @@ export default function HomePage() {
           </p>
           <div className="flex gap-4 justify-center">
             <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
-              <Link href="/timesheet">Get Started</Link>
+              <Link href="/dashboard/timesheet">Get Started</Link>
             </Button>
             <Button asChild variant="outline" size="lg">
-              <Link href="/timesheet/dashboard">View Demo</Link>
+              <Link href="/dashboard/timesheet/dashboard">View Demo</Link>
             </Button>
           </div>
         </div>
@@ -126,7 +126,7 @@ export default function HomePage() {
             Start tracking your time today and get AI-powered insights to work smarter, not harder.
           </p>
           <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
-            <Link href="/timesheet">Start Free Today</Link>
+            <Link href="/dashboard/timesheet">Start Free Today</Link>
           </Button>
         </div>
       </div>
