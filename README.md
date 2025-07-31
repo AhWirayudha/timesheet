@@ -2,6 +2,11 @@
 
 A comprehensive timesheet management system with AI-powered analysis, team collaboration, and project management features.
 
+## 🔗 Links
+
+- **GitHub Repository**: [https://github.com/AhWirayudha/timesheet](https://github.com/AhWirayudha/timesheet)
+- **Live Demo**: [https://timesheet-brown-three.vercel.app/](https://timesheet-brown-three.vercel.app/)
+
 ## 🚀 Features
 
 ### Core Timesheet Management
