@@ -1,8 +1,25 @@
 import { db } from './drizzle';
 import { users, teams, teamMembers } from './schema';
 import { hashPassword } from '@/lib/auth/session';
+import { eq } from 'drizzle-orm';
 
 async function seed() {
+  console.log('Checking if data already exists...');
+  
+  // Check if test user already exists
+  const existingUser = await db
+    .select()
+    .from(users)
+    .where(eq(users.email, 'test@test.com'))
+    .limit(1);
+
+  if (existingUser.length > 0) {
+    console.log('Test user already exists. Skipping seed process.');
+    return;
+  }
+
+  console.log('No existing data found. Starting seed process...');
+
   const email = 'test@test.com';
   const password = 'admin123';
   const passwordHash = await hashPassword(password);
@@ -33,7 +50,7 @@ async function seed() {
     role: 'owner',
   });
 
-
+  console.log('Seed process completed successfully.');
 }
 
 seed()
