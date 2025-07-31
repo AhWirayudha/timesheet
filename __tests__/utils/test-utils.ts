@@ -33,6 +33,11 @@ const createComprehensiveChainableMock = () => {
   mock.returning.mockResolvedValue([])
   mock.orderBy.mockResolvedValue([])
   mock.limit.mockResolvedValue([])
+  mock.innerJoin.mockResolvedValue([])
+  mock.select.mockResolvedValue([])
+  mock.insert.mockResolvedValue([])
+  mock.update.mockResolvedValue([])
+  mock.delete.mockResolvedValue([])
 
   return mock
 }
@@ -40,6 +45,29 @@ const createComprehensiveChainableMock = () => {
 // Mock the database
 jest.mock('@/lib/db/drizzle', () => ({
   db: createComprehensiveChainableMock(),
+}))
+
+// Mock GoogleGenerativeAI
+jest.mock('@google/generative-ai', () => ({
+  GoogleGenerativeAI: jest.fn().mockImplementation(() => ({
+    getGenerativeModel: jest.fn().mockReturnValue({
+      generateContent: jest.fn().mockResolvedValue({
+        response: {
+          text: jest.fn().mockReturnValue(JSON.stringify({
+            summary: 'Test summary',
+            recommendations: ['Test recommendation'],
+            trends: ['Test trend'],
+            alerts: ['Test alert'],
+            performance: {
+              best: 'Test best',
+              needsImprovement: 'Test improvement',
+              opportunities: ['Test opportunity']
+            }
+          }))
+        }
+      })
+    })
+  }))
 }))
 
 // Mock user data
