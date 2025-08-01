@@ -4,17 +4,29 @@ import { signToken, verifyToken } from '@/lib/auth/session';
 
 const protectedRoutes = '/dashboard';
 const demoRoutes = ['/demo', '/demo/timesheet', '/demo/dashboard', '/demo/timesheet/dashboard'];
+const loginRoutes = ['/login/sign-in', '/login/sign-up', '/login'];
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const sessionCookie = request.cookies.get('session');
   const isProtectedRoute = pathname.startsWith(protectedRoutes);
   const isDemoRoute = demoRoutes.some(route => pathname.startsWith(route));
+  const isLoginRoute = loginRoutes.some(route => pathname === route || pathname.startsWith(route + '/'));
   const isRootPath = pathname === '/';
 
   // Allow demo routes without authentication
   if (isDemoRoute) {
     return NextResponse.next();
+  }
+
+  // If user is authenticated and trying to access login pages, redirect to dashboard
+  if (isLoginRoute && sessionCookie) {
+    try {
+      await verifyToken(sessionCookie.value);
+      return NextResponse.redirect(new URL('/dashboard', request.url));
+    } catch (error) {
+      // Invalid session, continue to login page
+    }
   }
 
   // If user is authenticated and on root path, redirect to timesheet
