@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { useDemo } from '@/lib/demo-context';
-import { CircleIcon, Home, LogOut, Calendar, BarChart3, Play } from 'lucide-react';
+import { CircleIcon, Home, LogOut, Calendar, BarChart3, Play, Database, Brain } from 'lucide-react';
 
 export default function DemoLayout({ children }: { children: React.ReactNode }) {
   const { exitDemoMode } = useDemo();
@@ -20,7 +20,7 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
       icon: Calendar
     },
     {
-      name: 'Dashboard',
+      name: 'Analytics',
       href: '/demo/dashboard',
       icon: BarChart3
     }
@@ -81,8 +81,21 @@ export default function DemoLayout({ children }: { children: React.ReactNode }) 
       <div className="bg-orange-50 border-t border-orange-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
           <div className="flex items-center justify-center text-sm text-orange-700">
-            <Play className="h-4 w-4 mr-2" />
-            <span>Demo Mode - This is a preview with sample data. Sign up to access full features.</span>
+            <Database className="h-4 w-4 mr-2" />
+            <span>Demo Mode - Data stored locally in your browser. Sign up for full features and Gemini AI analytics.</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Gemini AI Banner */}
+      <div className="bg-purple-50 border-t border-purple-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+          <div className="flex items-center justify-center text-sm text-purple-700">
+            <Brain className="h-4 w-4 mr-2" />
+            <span>Want advanced AI analytics? Sign up to access Gemini AI for personalized insights and recommendations.</span>
+            <Link href="/login/sign-up" className="ml-2 underline font-medium hover:text-purple-800">
+              Get Started
+            </Link>
           </div>
         </div>
       </div>
