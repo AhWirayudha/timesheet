@@ -25,8 +25,8 @@ export function DemoProvider({ children }: { children: React.ReactNode }) {
     id: 'demo-user',
     email: 'demo@example.com',
     name: 'Demo User',
-    role: 'user' as const
-  };
+    role: 'user'
+  } as const;
 
   const enterDemoMode = () => {
     setIsDemoMode(true);
