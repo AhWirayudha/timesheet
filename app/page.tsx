@@ -1,13 +1,52 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Clock, Brain, BarChart3, Download, Zap, Play } from 'lucide-react';
 import { useDemo } from '@/lib/demo-context';
+import { useRouter } from 'next/navigation';
 
 export default function HomePage() {
   const { enterDemoMode } = useDemo();
+  const router = useRouter();
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  useEffect(() => {
+    // Check if user is logged in by trying to fetch user data
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/api/user');
+        if (response.ok) {
+          const userData = await response.json();
+          // If user is authenticated, redirect to timesheet
+          if (userData && userData.id) {
+            router.push('/dashboard/timesheet');
+            return;
+          }
+        }
+      } catch (error) {
+        // If there's an error, user is not authenticated, stay on landing page
+        console.log('User not authenticated, showing landing page');
+      }
+      setIsCheckingAuth(false);
+    };
+
+    checkAuth();
+  }, [router]);
+
+  // Show loading while checking authentication
+  if (isCheckingAuth) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">

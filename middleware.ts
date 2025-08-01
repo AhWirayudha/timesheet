@@ -10,10 +10,21 @@ export async function middleware(request: NextRequest) {
   const sessionCookie = request.cookies.get('session');
   const isProtectedRoute = pathname.startsWith(protectedRoutes);
   const isDemoRoute = demoRoutes.some(route => pathname.startsWith(route));
+  const isRootPath = pathname === '/';
 
   // Allow demo routes without authentication
   if (isDemoRoute) {
     return NextResponse.next();
+  }
+
+  // If user is authenticated and on root path, redirect to timesheet
+  if (isRootPath && sessionCookie) {
+    try {
+      await verifyToken(sessionCookie.value);
+      return NextResponse.redirect(new URL('/dashboard/timesheet', request.url));
+    } catch (error) {
+      // Invalid session, continue to show landing page
+    }
   }
 
   if (isProtectedRoute && !sessionCookie) {

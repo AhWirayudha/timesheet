@@ -336,6 +336,14 @@ function QuickActions() {
               <span className="text-sm text-muted-foreground">View team activity</span>
             </Link>
           </Button>
+          
+          <Button asChild variant="outline" className="h-auto p-4 flex flex-col items-start">
+            <Link href="/dashboard/teams">
+              <Users className="h-6 w-6 mb-2" />
+              <span className="font-medium">Manage Teams</span>
+              <span className="text-sm text-muted-foreground">Team settings & members</span>
+            </Link>
+          </Button>
         </div>
       </CardContent>
     </Card>
@@ -381,7 +389,7 @@ export default function DashboardPage() {
           <CardFooter>
             <div className="flex space-x-2">
               <Button asChild>
-                <Link href="/dashboard/create-team">Create Team</Link>
+                <Link href="/dashboard/teams">Manage Teams</Link>
               </Button>
               <Button variant="outline" asChild>
                 <Link href="/dashboard/invitations">Check Invitations</Link>

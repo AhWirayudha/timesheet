@@ -148,10 +148,10 @@ function Sidebar({ sidebarOpen, toggleSidebar }: { sidebarOpen: boolean; toggleS
       show: hasTeam
     },
     {
-      name: 'Team Members',
-      href: '/dashboard/create-team',
+      name: 'Teams',
+      href: '/dashboard/teams',
       icon: Users,
-      show: hasTeam
+      show: true
     },
     {
       name: 'Invitations',
